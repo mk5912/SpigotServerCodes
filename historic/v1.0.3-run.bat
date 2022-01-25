@@ -1,3 +1,4 @@
+::Version: 1.0.3
 @echo off
 setlocal enableextensions enabledelayedexpansion
 
