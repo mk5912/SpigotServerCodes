@@ -1,22 +1,20 @@
-::Version: 1.2.3
+::Version: Experimental 1.2.4
 @echo off
+cls
 setlocal enableextensions enabledelayedexpansion
 
 set ckBUILD=0&set ckEULA=0&set ckRES=0&set sE=0
 set lp=
-set m=512
-set /a k=%m%*1024
-set /a b=%k%*1024
+set m=512&&set /a k=%m%*1024&&set /a b=%k%*1024
 set numList=0123456789
 set "link=https://sourceforge.net/projects/upnp-portmapper/files/v2.1.1/portmapper-2.1.1.jar"
 set ops=batch.settings&set prop=server.properties&set log=logs\latest.log&set "arqs=%date:~-4%-%date:~3,2%-%date:~0,2%-"
-set "com=%~1"&if "%~2" neq "" (set /a port=%~2+1 &&echo.server-port:!port!>>!prop!)
-for /f "tokens=*" %%f in ('dir /b /ad "..\*"') do (echo.%com%|find "%%f">nul||set n=%%f&&goto :getName)
-
+set "com=%~1"&& if "%~2" neq "" (set /a port=%~2 + 1 &&echo.server-port=!port!>>!prop!)
+call :getNextServer
 
 :getName
 set ret=%cd%
-for /l %%i in (-1,-1,-128) do (echo.\/|find "!cd:~%%i,1!">nul&&(title Server !name! !port!&goto :run)||(set name=!cd:~%%i!||call :err dir_Check 0xA2 fetch_FAIL))
+for /l %%i in (-1,-1,-128) do (echo.\/|find "!cd:~%%i,1!">nul&&(title Server !name! !port!&goto :run)||(set "name=!cd:~%%i!"||call :err dir_Check 0xA2 fetch_FAIL))
 
 :run
 call :batCall
@@ -26,7 +24,6 @@ if /i "!ver!"=="latest" (call :buildServer)
 if %ckEULA%==3 (call :err eula_Set 0xD8 false)
 if %ckRES%==3 (call :err restart_Set 0xD9 false)
 if exist spigot.yml (call :spigUpdate)
-if "%bun%"==" true" (echo.%com%%name%|find /i "%n%"||(start cmd /c "cd ..\%n% &&for %%i in (*run*.bat) do (start %%i %com%%n% %port%)"))
 cls
 echo.Join Externally Using !address![:!port!]
 echo.Or Internally Using !intIP!:!port!
@@ -35,12 +32,15 @@ echo.Version=%ver%
 echo.RAM=%ram%B
 echo.
 if not exist eula.txt (echo.eula=true>eula.txt)
+find /i "Attempting to restart" %log%>nul||(if "%bun%"==" true" (echo.%com%%name%|find /i "%n%">nul||(start cmd /c "cd ..\%n% &&for %%i in (*run*.bat) do (start %%i "%com%%n%" %port%)")))
 call :mapSet add&java -Xmx!ram! -jar !ver!-server.jar nogui||call :err server_Strt 0xD4 FAIL
 
 :chk
 find /i "agree to the EULA" %log%>nul&&(set /a ckEULA=%ckEULA%+1&set /a sE=!sE!+1&echo.&&echo.Use This Time To Edit The Server Properties To How You Wish.&&pause>nul|echo.Press Any Key To Retry...&&goto :run)
 find /i "Startup script" %log%>nul&&(cls&set /a ckRES=!ckRES!+1&set /a sE=!sE!+1&echo.&&echo.In Order For The Restart Command To Work You Must Edit Spigot.yml And Change "!rs!" to "restart-script: %runFile%".&&pause>nul|echo.Press Any Key To Restart...&&goto :run)
 find /i "Attempting to restart" %log%>nul&&exit
+for /f "tokens=* delims=:" %%i in (%log%) do (echo.%%i|find /i "Prepare to shutdown!">nul&&(set shutdown=true)||(echo.%%i|find /i "Cancel shutdown!"&&(set shutdown=false)))
+if "%shutdown%" equ "true" (shutdown /s /t 60)
 call :mapSet delete
 echo.%bun%|find /i "true">nul&&exit
 choice /c YN /n /m "Do You Want To Backup Your Server (Y/ N): "
@@ -149,21 +149,28 @@ if exist !portFile! (java -jar !portFile! -%~1 -externalPort %port% -internalPor
 exit /b
 
 :spigUpdate
-for /f "tokens=* delims=:" %%a in (spigot.yml) do (
-	echo.%%a|find /i "restart-script"&&(echo.  restart-script: !runFile!>>tmp.yml)||(
-		if "%com%" neq "" (
-			echo.%%a|find /i "bungeecord"&&echo.  bungeecord: true>>tmp.yml&&echo.online-mode=false>>!prop!||echo.%%a>>tmp.yml
+find /i "Attempting to restart" %log%>nul||(
+	for /f "tokens=* delims=:" %%a in (spigot.yml) do (
+		echo.%%a|find /i "restart-script"&&(echo.  restart-script: !runFile!>>tmp.yml)||(
+			if "%com%" neq "" (
+				echo.%%a|find /i "bungeecord"&&echo.  bungeecord: true>>tmp.yml&&echo.online-mode=false>>!prop!||echo.%%a>>tmp.yml
+			)
+			if "%com%" equ "" (
+				echo.%%a|find /i "bungeecord"&&echo.  bungeecord: false>>tmp.yml&&echo.online-mode=true>>!prop!||echo.%%a>>tmp.yml
+			)
 		)
-		if "%com%" equ "" (
-			echo.%%a|find /i "bungeecord"&&echo.  bungeecord: false>>tmp.yml&&echo.online-mode=true>>!prop!||echo.%%a>>tmp.yml
-		)
+		echo.%%a
 	)
-	echo.%%a
 )
 cls
 del spigot.yml
 ren tmp.yml spigot.yml
 exit /b
+
+:getNextServer
+for /f "tokens=*" %%f in ('dir /b /ad "..\*"') do (echo.%com%|find "%%f">nul||set "n=%%f"&&goto :cont2)
+:cont2
+echo.%n:~0,1%|find "-"&&(set com=%com%%n%&&goto :getNextServer)||(exit /b 0)
 
 :arq
 cd logs
