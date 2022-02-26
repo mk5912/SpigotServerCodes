@@ -1,4 +1,4 @@
-# Custom Windows batch code to intiate and run a Spigot powered Minecraft server!
+# Custom Windows .exe file to intiate and run a Spigot powered Minecraft server!
 
 
 Recorded time working on this repo.\
