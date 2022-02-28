@@ -2,9 +2,11 @@
 
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 
-#ifndef MAINONLY
-
 #include "Servers.h"
+
+void servers_Initialise(){
+
+}
 
 const char getServers() {
 	const char* servers = "Debug";
@@ -19,28 +21,12 @@ server setActiveServer(int index) {
 	return activeServer;
 }
 
-void addServer(server serverName, const char serverType) {
-
-	if (serverName.bungee) {
+void addServer(server name, const char serverType) {
+	if (name.bungee) {
 
 	}
 }
 
-void deleteServer(server serverName) {
+void deleteServer(server name) {
 
 }
-
-void startServer() {
-
-}
-
-void restartServer() {
-
-}
-
-void stopServer() {
-
-}
-
-
-#endif // !MAINONLY
