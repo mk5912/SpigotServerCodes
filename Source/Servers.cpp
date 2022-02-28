@@ -4,29 +4,36 @@
 
 #include "Servers.h"
 
-void servers_Initialise(){
+namespace servers {
 
-}
-
-const char getServers() {
-	const char* servers = "Debug";
-	return *servers;
-}
-
-server setActiveServer(int index) {
-	server tempServer;
-	tempServer.serverID = index;
-	server activeServer;
-	deleteServer(tempServer);
-	return activeServer;
-}
-
-void addServer(server name, const char serverType) {
-	if (name.bungee) {
+	void servers_Initialise() {
 
 	}
-}
 
-void deleteServer(server name) {
+	const char getServers() {
+		const char* servers = "Debug";
+		return *servers;
+	}
 
-}
+	server setActiveServer(int index) {
+		server tempServer;
+		tempServer.serverID = index;
+		server activeServer;
+		deleteServer(tempServer);
+		return activeServer;
+	}
+
+	void addServer(server name, const char serverType) {
+		if (name.bungee) {
+
+		}
+	}
+
+	void deleteServer(server name) {
+
+	}
+
+	unsigned int generateID() {
+		return 100000000 + (rand() % 800000000);
+	}
+};

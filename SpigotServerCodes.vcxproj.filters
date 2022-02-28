@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Server">
       <UniqueIdentifier>{0b48a9b2-6dbd-46a9-a9a4-214ccac0d124}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Git Files">
+      <UniqueIdentifier>{406e4c50-b831-476a-ac7e-1244f1b7bc91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Servers.h">
@@ -32,5 +35,16 @@
     <ClCompile Include="Source\Servers.cpp">
       <Filter>Source Files\Server</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore">
+      <Filter>Git Files</Filter>
+    </None>
+    <None Include="README.md">
+      <Filter>Git Files</Filter>
+    </None>
+    <None Include=".gitmodules">
+      <Filter>Git Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
