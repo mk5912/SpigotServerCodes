@@ -32,14 +32,14 @@ echo.Version=%ver%
 echo.RAM=%ram%B
 echo.
 if not exist eula.txt (echo.eula=true>eula.txt)
-find /i "Attempting to restart" %log%>nul||(if "%bun%"==" true" (if "!name!" neq "!n!" (start cmd /c "cd ..\%n% &&for %%i in (*run*.bat) do (start %%i "%com%%n%" %port%)")))
+find /i "Attempting to restart" %log%>nul||(if "%bun%"==" true" (echo.%com%%name%|find /i "%n%">nul||(start cmd /c "cd ..\%n% &&for %%i in (*run*.bat) do (start %%i "%com%%n%" %port%)")))
 call :mapSet add&java -Xmx!ram! -jar !ver!-server.jar nogui||call :err server_Strt 0xD4 FAIL
 
 :chk
 find /i "agree to the EULA" %log%>nul&&(set /a ckEULA=%ckEULA%+1&set /a sE=!sE!+1&echo.&&echo.Use This Time To Edit The Server Properties To How You Wish.&&pause>nul|echo.Press Any Key To Retry...&&goto :run)
 find /i "Startup script" %log%>nul&&(cls&set /a ckRES=!ckRES!+1&set /a sE=!sE!+1&echo.&&echo.In Order For The Restart Command To Work You Must Edit Spigot.yml And Change "!rs!" to "restart-script: %runFile%".&&pause>nul|echo.Press Any Key To Restart...&&goto :run)
 find /i "Attempting to restart" %log%>nul&&exit
-for /f "tokens=* delims=:" %%i in (%log%) do (echo.%%i|find /i "Prepare to shutdown!">nul&&(set shutdown=true)||(echo.%%i|find /i "Shutdown canceled">nul&&(set shutdown=false)))
+for /f "tokens=* delims=:" %%i in (%log%) do (echo.%%i|find /i "Prepare to shutdown!">nul&&(set shutdown=true)||(echo.%%i|find /i "Cancel shutdown!"&&(set shutdown=false)))
 if "%shutdown%" equ "true" (shutdown /s /t 60)
 call :mapSet delete
 echo.%bun%|find /i "true">nul&&exit
