@@ -11,9 +11,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Pull in dev.to posts
+      - name: Pull in YouTube video list
         uses: gautamkrishnar/blog-post-workflow@master
         with:
             comment_tag_name: YOUTUBE
             max_post_count: 5
-            feed_list: https://www.youtube.com/feeds/videos.xml?channel_id=UCt04NKIHCuVgYeE8-V6K9ww
+            feed_list: https://www.youtube.com/feeds/videos.xml?channel_id=UCznMuRRnHBOtYA82aWCDR6Q
