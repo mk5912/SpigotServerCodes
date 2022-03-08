@@ -5,7 +5,7 @@
 <!-- BLOG:START -->
 <!-- BLOG:END -->
 
-### Tutorials(https://www.youtube.com/channel/UCt04NKIHCuVgYeE8-V6K9ww):
+### [Tutorials](https://www.youtube.com/channel/UCt04NKIHCuVgYeE8-V6K9ww):
 <!-- YOUTUBE:START -->
 <!-- YOUTUBE:END -->
 
