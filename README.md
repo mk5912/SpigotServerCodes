@@ -1,6 +1,6 @@
 # Custom Windows .exe file to intiate and run a Spigot powered Minecraft server!
 
-### [Blog Posts](htps://www.myeasyserver.xyz/blog2):
+### [Updates](https://www.myeasyserver.xyz/blog2):
 <!-- Blog: -->
 <!-- BLOG:START -->
 <!-- BLOG:END -->
