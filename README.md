@@ -6,7 +6,7 @@ This code is still very experimental and does not always start every world and m
 <!-- BLOG:START -->
 <!-- BLOG:END -->
 
-### Tutorials(https://www.youtube.com/channel/UCt04NKIHCuVgYeE8-V6K9ww):
+### [Tutorials](https://www.youtube.com/channel/UCt04NKIHCuVgYeE8-V6K9ww):
 <!-- YOUTUBE:START -->
 <!-- YOUTUBE:END -->
 
