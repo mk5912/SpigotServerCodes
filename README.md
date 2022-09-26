@@ -1,7 +1,6 @@
 # Custom Windows batch code to intiate and run a Spigot powered Minecraft server!
 
-### [Updates](https://www.myeasyserver.xyz/blog2):
-<!-- Blog: -->
+### [Key Notifications](https://www.myeasyserver.xyz/blog2):
 <!-- BLOG:START -->
 - [GitHub Update.](https://www.myeasyserver.xyz/blog/github-update)
 - [Experimental Update!](https://www.myeasyserver.xyz/blog/experimental-update)
